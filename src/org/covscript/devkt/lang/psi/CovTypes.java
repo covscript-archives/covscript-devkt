@@ -7,8 +7,6 @@ import org.covscript.devkt.lang.psi.impl.*;
 import org.jetbrains.kotlin.com.intellij.psi.tree.IElementType;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
-import org.covscript.lang.psi.impl.*;
-
 public interface CovTypes {
 
   IElementType APPLY_FUNCTION = new CovElementType("APPLY_FUNCTION");

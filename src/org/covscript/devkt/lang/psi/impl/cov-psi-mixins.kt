@@ -1,5 +1,8 @@
 package org.covscript.devkt.lang.psi.impl
 
+import org.covscript.devkt.lang.CovTokenType
+import org.covscript.devkt.lang.orFalse
+import org.covscript.devkt.lang.psi.*
 import org.jetbrains.kotlin.com.intellij.extapi.psi.ASTWrapperPsiElement
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.com.intellij.psi.*
@@ -7,10 +10,6 @@ import org.jetbrains.kotlin.com.intellij.psi.impl.source.tree.injected.StringLit
 import org.jetbrains.kotlin.com.intellij.psi.scope.PsiScopeProcessor
 import org.jetbrains.kotlin.com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.com.intellij.util.IncorrectOperationException
-import org.covscript.devkt.lang.CovTokenType
-import org.covscript.devkt.lang.orFalse
-import org.covscript.devkt.lang.psi.*
-import org.covscript.lang.psi.*
 
 interface ICovString : PsiLanguageInjectionHost {
 	override fun createLiteralTextEscaper(): LiteralTextEscaper<out CovString>

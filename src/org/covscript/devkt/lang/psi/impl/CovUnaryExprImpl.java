@@ -7,8 +7,6 @@ import org.covscript.devkt.lang.psi.CovVisitor;
 import org.jetbrains.annotations.*;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
-import org.covscript.lang.psi.*;
-
 public class CovUnaryExprImpl extends CovExprImpl implements CovUnaryExpr {
 
   public CovUnaryExprImpl(ASTNode node) {

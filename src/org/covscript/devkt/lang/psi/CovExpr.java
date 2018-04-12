@@ -2,7 +2,6 @@
 package org.covscript.devkt.lang.psi;
 
 import org.covscript.devkt.lang.psi.impl.ICovExpr;
-import org.covscript.devkt.lang.psi.impl.ICovExpr;
 
 public interface CovExpr extends ICovExpr {
 

@@ -8,8 +8,6 @@ import org.jetbrains.annotations.*;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.kotlin.com.intellij.extapi.psi.ASTWrapperPsiElement;
-import org.covscript.lang.psi.*;
-
 public class CovBlockStatementImpl extends ASTWrapperPsiElement implements CovBlockStatement {
 
   public CovBlockStatementImpl(ASTNode node) {

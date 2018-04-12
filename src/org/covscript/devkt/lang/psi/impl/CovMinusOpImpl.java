@@ -10,8 +10,6 @@ import org.jetbrains.annotations.*;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.kotlin.com.intellij.psi.util.PsiTreeUtil;
-import org.covscript.lang.psi.*;
-
 public class CovMinusOpImpl extends CovExprImpl implements CovMinusOp {
 
   public CovMinusOpImpl(ASTNode node) {

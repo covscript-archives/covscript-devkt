@@ -6,8 +6,6 @@ import org.covscript.devkt.lang.psi.CovVisitor;
 import org.jetbrains.annotations.*;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
-import org.covscript.lang.psi.*;
-
 public class CovNumberImpl extends CovExprImpl implements CovNumber {
 
   public CovNumberImpl(ASTNode node) {

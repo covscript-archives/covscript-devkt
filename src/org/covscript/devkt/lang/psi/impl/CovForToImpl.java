@@ -11,8 +11,6 @@ import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.kotlin.com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.kotlin.com.intellij.extapi.psi.ASTWrapperPsiElement;
-import org.covscript.lang.psi.*;
-
 public class CovForToImpl extends ASTWrapperPsiElement implements CovForTo {
 
   public CovForToImpl(ASTNode node) {

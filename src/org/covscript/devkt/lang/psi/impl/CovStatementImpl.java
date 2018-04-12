@@ -5,8 +5,6 @@ import org.covscript.devkt.lang.psi.*;
 import org.jetbrains.annotations.*;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
-import org.covscript.lang.psi.*;
-
 public class CovStatementImpl extends CovStatementMixin implements CovStatement {
 
   public CovStatementImpl(ASTNode node) {
