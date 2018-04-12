@@ -38,6 +38,26 @@ buildscript {
   }
 }
 
+tasks.withType<Jar> {
+  manifest {
+    attributes(mapOf("Main-Class" to "org.ice1000.devkt.Main",
+        "SplashScreen-Image" to "slpash.png"))
+  }
+}
+
+val fatJar = task<Jar>("fatJar") {
+  classifier = "all"
+  description = "Assembles a jar archive containing the main classes and all the dependencies."
+  group = "build"
+  from(Callable {
+    configurations.compile.map {
+      @Suppress("IMPLICIT_CAST_TO_ANY")
+      if (it.isDirectory) it else zipTree(it)
+    }
+  })
+  with(tasks["jar"] as Jar)
+}
+
 plugins {
   java
   kotlin("jvm") version "1.2.31"
@@ -59,7 +79,7 @@ java.sourceSets {
   "main" {
     java.setSrcDirs(listOf("src"))
     kotlin.setSrcDirs(listOf("src"))
-    resources.setSrcDirs(emptyList<Any>())
+    resources.setSrcDirs(listOf("res"))
   }
 
   "test" {
