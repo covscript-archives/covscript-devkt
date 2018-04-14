@@ -84,5 +84,5 @@ repositories {
 
 dependencies {
   compileOnly(kotlin("compiler-embeddable", kotlinVersion))
-  compileOnly(files("lib/dev-kt-v1.2-SNAPSHOT.jar"))
+  compileOnly(files(*File("lib").listFiles()))
 }

@@ -99,3 +99,5 @@ fabric.properties
 .gradle
 build
 config.properties
+.idea
+lib
