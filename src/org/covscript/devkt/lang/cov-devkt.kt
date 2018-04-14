@@ -2,11 +2,13 @@ package org.covscript.devkt.lang
 
 import org.covscript.devkt.lang.psi.CovSymbol
 import org.covscript.devkt.lang.psi.CovTypes
-import org.ice1000.devkt.config.ColorScheme
-import org.ice1000.devkt.lang.*
-import org.ice1000.devkt.ui.swing.AnnotationHolder
-import org.jetbrains.kotlin.com.intellij.lexer.Lexer
-import org.jetbrains.kotlin.com.intellij.openapi.project.Project
+
+import org.ice1000.devkt.openapi.AnnotationHolder
+import org.ice1000.devkt.openapi.Annotator
+import org.ice1000.devkt.openapi.ColorScheme
+import org.ice1000.devkt.openapi.ExtendedDevKtLanguage
+import org.ice1000.devkt.openapi.SyntaxHighlighter
+
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.com.intellij.psi.tree.IElementType
 
