@@ -23,10 +23,6 @@ Then copy the built jar under `build/libs` to the `lib` directory in this repo a
 $ gradle jar
 ```
 
-Then:
-
-+ put the compiled jar together with a DevKt release
-+ create `config.propreties` and write `languageExtensions=org.covscript.devkt.lang.CovScript`
-+ load both jars in a JVM
+Then load both jars in one JVM.
 
 Now you can edit CovScript files in DevKt!
