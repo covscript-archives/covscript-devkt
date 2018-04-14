@@ -4,17 +4,11 @@ import org.covscript.devkt.lang.psi.CovSymbol
 import org.covscript.devkt.lang.psi.CovTypes
 import org.ice1000.devkt.config.ColorScheme
 import org.ice1000.devkt.lang.*
-import org.ice1000.devkt.ui.AnnotationHolder
+import org.ice1000.devkt.ui.swing.AnnotationHolder
+import org.jetbrains.kotlin.com.intellij.lexer.Lexer
+import org.jetbrains.kotlin.com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.com.intellij.psi.tree.IElementType
-
-class CovScript<TextAttributes> : ExtendedProgrammingLanguage<TextAttributes>(
-		CovScriptAnnotator<TextAttributes>(),
-		CovScriptSyntaxHighlighter<TextAttributes>(),
-		CovLanguage.INSTANCE,
-		CovParserDefinition()) {
-	override fun satisfies(fileName: String) = fileName.endsWith(".csc") or fileName.endsWith(".csp")
-}
 
 class CovScriptSyntaxHighlighter<TextAttributes> : SyntaxHighlighter<TextAttributes> {
 	override fun attributesOf(type: IElementType, colorScheme: ColorScheme<TextAttributes>) = when (type) {
@@ -46,4 +40,13 @@ class CovScriptAnnotator<TextAttributes> : Annotator<TextAttributes> {
 			element.isVar -> document.highlight(element, colorScheme.variable)
 		}
 	}
+}
+
+class CovScript<TextAttributes> : ExtendedDevKtLanguage<TextAttributes>(
+		CovLanguage.INSTANCE,
+		CovParserDefinition()),
+		Annotator<TextAttributes> by CovScriptAnnotator(),
+		SyntaxHighlighter<TextAttributes> by CovScriptSyntaxHighlighter() {
+	override fun satisfies(fileName: String) = fileName.endsWith(".csc") or fileName.endsWith(".csp")
+	override val lineCommentStart: String get() = "# "
 }
