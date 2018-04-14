@@ -1,8 +1,5 @@
 import org.jetbrains.kotlin.gradle.plugin.KotlinSourceSet
 import java.io.*
-import java.nio.file.*
-import java.util.concurrent.*
-import java.util.stream.Collectors
 
 val kotlinVersion = "1.2.31"
 
