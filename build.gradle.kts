@@ -4,14 +4,14 @@ import java.nio.file.*
 import java.util.concurrent.*
 import java.util.stream.Collectors
 
-val kotlinVersion = "1.2.31"
+val kotlinVersion = "1.2.40"
 
 group = "org.covscript.devkt.lang"
-version = "v1.0-SNAPSHOT"
+version = "v1.0"
 
 plugins {
   java
-  kotlin("jvm") version "1.2.31"
+  kotlin("jvm") version "1.2.40"
 }
 
 java {
