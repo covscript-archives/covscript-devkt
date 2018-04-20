@@ -17,12 +17,18 @@ Build the main DevKt repo first:
 $ gradlew jar
 ```
 
-Then copy the built jar under `build/libs` to the `lib` directory in this repo and build this repo:
+Then copy the built jar under `common/build/libs` to the `lib` directory in this repo and build this repo:
 
 ```
 $ gradle jar
 ```
 
 Then load both jars in one JVM.
+
+You can do it by putting the covscript-devkt jar under `common/plugins`, and use
+
+```
+$ gradlew :swing:run
+```
 
 Now you can edit CovScript files in DevKt!
