@@ -3,6 +3,9 @@
 package org.covscript.devkt.lang;
 
 import org.covscript.devkt.lang.psi.CovTypes;
+import org.jetbrains.kotlin.com.intellij.lexer.FlexLexer;
+import org.jetbrains.kotlin.com.intellij.psi.TokenType;
+import org.jetbrains.kotlin.com.intellij.psi.tree.IElementType;
 
 
 /**

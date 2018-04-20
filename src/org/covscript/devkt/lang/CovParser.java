@@ -1,7 +1,16 @@
 // This is a generated file. Not intended for manual editing.
 package org.covscript.devkt.lang;
 
+import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
+import org.jetbrains.kotlin.com.intellij.lang.LightPsiParser;
+import org.jetbrains.kotlin.com.intellij.lang.PsiBuilder;
+import org.jetbrains.kotlin.com.intellij.lang.PsiParser;
+import org.jetbrains.kotlin.com.intellij.psi.tree.IElementType;
+import org.jetbrains.kotlin.com.intellij.psi.tree.TokenSet;
+
 import static org.covscript.devkt.lang.psi.CovTypes.*;
+import static org.jetbrains.kotlin.com.intellij.lang.PsiBuilder.*;
+import static org.jetbrains.kotlin.com.intellij.lang.parser.GeneratedParserUtilBase.*;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
 public class CovParser implements PsiParser, LightPsiParser {
