@@ -1,11 +1,13 @@
 // This is a generated file. Not intended for manual editing.
 package org.covscript.devkt.lang.psi.impl;
 
-import org.covscript.devkt.lang.psi.*;
 import org.jetbrains.annotations.*;
-import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
-public class CovStatementImpl extends CovStatementMixin implements CovStatement {
+import org.jetbrains.kotlin.com.intellij.extapi.psi.ASTWrapperPsiElement;
+import org.covscript.devkt.lang.psi.*;
+import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
+
+public class CovStatementImpl extends ASTWrapperPsiElement implements CovStatement {
 
   public CovStatementImpl(ASTNode node) {
     super(node);

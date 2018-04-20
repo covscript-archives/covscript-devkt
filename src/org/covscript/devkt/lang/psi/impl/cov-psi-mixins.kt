@@ -6,42 +6,8 @@ import org.covscript.devkt.lang.psi.*
 import org.jetbrains.kotlin.com.intellij.extapi.psi.ASTWrapperPsiElement
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode
 import org.jetbrains.kotlin.com.intellij.psi.*
-import org.jetbrains.kotlin.com.intellij.psi.impl.source.tree.injected.StringLiteralEscaper
 import org.jetbrains.kotlin.com.intellij.psi.scope.PsiScopeProcessor
 import org.jetbrains.kotlin.com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.kotlin.com.intellij.util.IncorrectOperationException
-
-interface ICovString : PsiLanguageInjectionHost {
-	override fun createLiteralTextEscaper(): LiteralTextEscaper<out CovString>
-	override fun updateText(s: String): CovString
-}
-
-@Suppress("HasPlatformType")
-abstract class CovStringMixin(node: ASTNode) : ASTWrapperPsiElement(node), CovString {
-	override fun isValidHost() = true
-	override fun createLiteralTextEscaper() = LiteralTextEscaper.createSimple(this)
-	override fun updateText(s: String) = ElementManipulators.handleContentChange(this, s)
-}
-
-interface ICovImportDeclaration : PsiNameIdentifierOwner
-
-abstract class CovImportDeclarationMixin(node: ASTNode) : CovImportDeclaration, TrivialDeclaration(node) {
-	override fun getNameIdentifier() = symbol
-	// workaround for KT-23219
-	@Throws(IncorrectOperationException::class)
-	override fun setName(newName: String): TrivialDeclaration =
-			throw IncorrectOperationException("Cannot rename import statement")
-}
-
-interface ICovUsingDeclaration : PsiNameIdentifierOwner
-
-abstract class CovUsingDeclarationMixin(node: ASTNode) : CovUsingDeclaration, TrivialDeclaration(node) {
-	override fun getNameIdentifier() = symbolList.lastOrNull()
-	// workaround for KT-23219
-	@Throws(IncorrectOperationException::class)
-	override fun setName(newName: String): TrivialDeclaration =
-			throw IncorrectOperationException("Cannot rename import statement")
-}
 
 interface ICovVariableDeclaration : PsiNameIdentifierOwner
 
@@ -103,49 +69,7 @@ abstract class CovFunctionDeclarationMixin(node: ASTNode) : CovFunctionDeclarati
 	}
 }
 
-abstract class CovCommentMixin(node: ASTNode) : ASTWrapperPsiElement(node), CovComment {
-	override fun getTokenType() = node.elementType
-	override fun isValidHost() = true
-	override fun updateText(string: String): CovComment = replace(CovTokenType.fromText(string, project)) as CovComment
-	override fun createLiteralTextEscaper() = StringLiteralEscaper.createSimple(this)
-}
-
-interface ICovStatement : PsiElement {
-	val inside: PsiElement?
-}
-
-abstract class CovStatementMixin(node: ASTNode) : ASTWrapperPsiElement(node),
-		CovStatement {
-	override val inside: PsiElement?
-		get() = children.firstOrNull()?.takeIf {
-			it is CovFunctionDeclaration ||
-					it is CovNamespaceDeclaration ||
-					it is CovVariableDeclaration ||
-					it is CovForStatement ||
-					it is CovStructDeclaration ||
-					it is CovLoopUntilStatement ||
-					it is CovIfStatement ||
-					it is CovWhileStatement ||
-					it is CovSwitchStatement ||
-					it is CovBlockStatement ||
-					it is CovTryCatchStatement
-		}
-
-	override fun processDeclarations(
-			processor: PsiScopeProcessor, substitutor: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-			processDeclTrivial(processor, substitutor, lastParent, place)
-}
-
-interface ICovExpr : PsiElement
-
 abstract class CovExprMixin(node: ASTNode) : ASTWrapperPsiElement(node), CovExpr
-
-abstract class CovBodyOfSomethingMixin(node: ASTNode) : ASTWrapperPsiElement(node),
-		CovBodyOfSomething {
-	override fun processDeclarations(
-			processor: PsiScopeProcessor, substitutor: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-			processDeclTrivial(processor, substitutor, lastParent, place)
-}
 
 abstract class CovForStatementMixin(node: ASTNode) : TrivialDeclaration(node),
 		CovForStatement {
@@ -160,14 +84,6 @@ interface ICovStructDeclaration : PsiNameIdentifierOwner {
 	override fun getNameIdentifier(): CovExpr?
 }
 
-abstract class CovStructDeclarationMixin(node: ASTNode) : CovStructDeclaration, TrivialDeclaration(node) {
-	override fun getNameIdentifier() = exprList.firstOrNull()
-}
-
-abstract class CovTryCatchDeclarationMixin(node: ASTNode) : CovTryCatchStatement, TrivialDeclaration(node) {
-	override fun getNameIdentifier() = symbol
-}
-
 interface ICovSymbol : PsiNameIdentifierOwner, CovExpr {
 	val isException: Boolean
 	val isLoopVar: Boolean
@@ -178,12 +94,9 @@ interface ICovSymbol : PsiNameIdentifierOwner, CovExpr {
 	val isStructName: Boolean
 	val isNamespaceName: Boolean
 	val isDeclaration: Boolean
-	val isImportedName: Boolean
-	val isUsingedName: Boolean
 }
 
 abstract class CovSymbolMixin(node: ASTNode) : CovSymbol, CovExprMixin(node) {
-	private var referenceImpl: CovSymbolRef? = null
 	final override val isException: Boolean get() = parent.let { it is CovTryCatchStatement && it.nameIdentifier === this }
 	final override val isLoopVar: Boolean get() = parent.let { it is CovForStatement && it.nameIdentifier === this }
 	final override val isVar: Boolean get() = parent.let { it is CovVariableDeclaration && it.nameIdentifier === this }
@@ -192,30 +105,17 @@ abstract class CovSymbolMixin(node: ASTNode) : CovSymbol, CovExprMixin(node) {
 	final override val isNamespaceName: Boolean get() = parent is CovNamespaceDeclaration
 	final override val isStructName: Boolean get() = parent.let { it is CovStructDeclaration && it.nameIdentifier === this }
 	final override val isFunctionName: Boolean get() = parent.let { it is CovFunctionDeclaration && it.nameIdentifier === this }
-	final override val isImportedName: Boolean get() = parent.let { it is CovImportDeclaration && it.nameIdentifier === this }
-	final override val isUsingedName: Boolean get() = parent.let { it is CovUsingDeclaration && it.nameIdentifier === this }
 	final override val isDeclaration: Boolean
-		get() = isException or
-				isLoopVar or
-				isVar or
-				isConstVar or
-				isNamespaceName or
-				isUsingedName or
-				isImportedName or
-				isFunctionName or
-				isStructName or
+		get() = isException ||
+				isLoopVar ||
+				isVar ||
+				isConstVar ||
+				isNamespaceName ||
+				isFunctionName ||
+				isStructName ||
 				isParameter
 
-	override fun processDeclarations(
-			processor: PsiScopeProcessor, state: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-			processor.execute(this, state)
-
-	override fun getReference() = referenceImpl ?: CovSymbolRef(this).also { referenceImpl = it }
 	override fun getNameIdentifier() = this
 	override fun getName() = text
 	override fun setName(name: String) = CovTokenType.fromText(name, project).also { replace(it) }
-	override fun subtreeChanged() {
-		referenceImpl = null
-		super.subtreeChanged()
-	}
 }

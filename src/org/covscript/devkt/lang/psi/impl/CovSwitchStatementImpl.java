@@ -2,16 +2,13 @@
 package org.covscript.devkt.lang.psi.impl;
 
 import java.util.List;
-
-import org.covscript.devkt.lang.psi.CovBodyOfSomething;
-import org.covscript.devkt.lang.psi.CovExpr;
-import org.covscript.devkt.lang.psi.CovSwitchStatement;
-import org.covscript.devkt.lang.psi.CovVisitor;
 import org.jetbrains.annotations.*;
-import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.kotlin.com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.kotlin.com.intellij.extapi.psi.ASTWrapperPsiElement;
+import org.covscript.devkt.lang.psi.*;
+import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
+
 public class CovSwitchStatementImpl extends ASTWrapperPsiElement implements CovSwitchStatement {
 
   public CovSwitchStatementImpl(ASTNode node) {

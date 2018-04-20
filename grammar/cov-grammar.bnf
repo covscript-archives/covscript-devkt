@@ -1,0 +1,319 @@
+{
+  parserClass='org.covscript.devkt.lang.CovParser'
+  extends='org.jetbrains.kotlin.com.intellij.extapi.psi.ASTWrapperPsiElement'
+  psiClassPrefix='Cov'
+  psiImplClassSuffix='Impl'
+  psiPackage='org.covscript.devkt.lang.psi'
+  psiImplPackage='org.covscript.devkt.lang.psi.impl'
+
+  extends('.*Lit|.*Expr|.*Op|.*ssign')=expr
+
+  tokenTypeClass='org.covscript.devkt.lang.CovTokenType'
+  elementTypeHolderClass='org.covscript.devkt.lang.psi.CovTypes'
+  elementTypeClass='org.covscript.devkt.lang.CovElementType'
+}
+
+file ::=
+ fileHeader*
+ statement*
+
+fileHeader ::=
+   usingDeclaration
+ | importDeclaration
+ | packageDeclaration
+ | comment
+ | endOfLine
+
+private endOfLine ::= EOL+
+break ::= BREAK_KEYWORD
+continue ::= CONTINUE_KEYWORD
+comment ::= LINE_COMMENT
+
+importDeclaration ::= IMPORT_KEYWORD symbol {
+	pin=1
+}
+
+usingDeclaration ::= USING_KEYWORD symbol (DOT symbol)* {
+	pin=1
+}
+
+packageDeclaration ::= PACKAGE_KEYWORD symbol { pin=1 }
+
+variableDeclaration ::= (CONST_KEYWORD)? VAR_KEYWORD symbol EQ expr {
+	pin=2
+	mixin='org.covscript.devkt.lang.psi.impl.CovVariableDeclarationMixin'
+	implements=['org.covscript.devkt.lang.psi.impl.ICovVariableDeclaration']
+}
+
+functionDeclaration ::=
+ FUNCTION_KEYWORD symbol LEFT_BRACKET (symbol (COMMA symbol)*)? RIGHT_BRACKET
+   OVERRIDE_KEYWORD? endOfLine
+  bodyOfSomething
+ END_KEYWORD {
+	pin=1
+	mixin='org.covscript.devkt.lang.psi.impl.CovFunctionDeclarationMixin'
+	implements=['org.covscript.devkt.lang.psi.impl.ICovFunctionDeclaration']
+}
+
+namespaceDeclaration ::=
+ NAMESPACE_KEYWORD symbol endOfLine
+  bodyOfSomething
+ END_KEYWORD {
+	pin=1
+	mixin='org.covscript.devkt.lang.psi.impl.CovNamespaceDeclarationMixin'
+}
+
+structDeclaration ::=
+ STRUCT_KEYWORD symbol (EXTENDS_KEYWORD expr)? endOfLine
+  ((variableDeclaration | functionDeclaration) endOfLine)*
+ END_KEYWORD {
+	pin=1
+	implements=['org.covscript.devkt.lang.psi.impl.ICovStructDeclaration']
+	mixin='org.covscript.devkt.lang.psi.impl.CovStructDeclarationMixin'
+}
+
+bodyOfSomething ::= (statement endOfLine)*
+
+returnStatement ::= RETURN_KEYWORD expr?
+throwStatement ::= THROW_KEYWORD expr
+
+tryCatchStatement ::=
+ TRY_KEYWORD endOfLine
+  bodyOfSomething
+ CATCH_KEYWORD symbol endOfLine
+  bodyOfSomething
+ END_KEYWORD {
+	pin=1
+	implements=['org.jetbrains.kotlin.com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.covscript.devkt.lang.psi.impl.CovTryCatchDeclarationMixin'
+}
+
+ifStatement ::=
+ IF_KEYWORD expr endOfLine
+  bodyOfSomething
+  (
+   ELSE_KEYWORD endOfLine
+    bodyOfSomething
+  )?
+ END_KEYWORD { pin=1 }
+
+switchStatement ::=
+ SWITCH_KEYWORD expr endOfLine
+  (
+   (CASE_KEYWORD expr | DEFAULT_KEYWORD) endOfLine
+    bodyOfSomething
+   END_KEYWORD endOfLine
+  )*
+ END_KEYWORD { pin=1 }
+
+whileStatement ::=
+ WHILE_KEYWORD expr endOfLine
+  bodyOfSomething
+ END_KEYWORD { pin=1 }
+
+loopUntilStatement ::=
+ LOOP_KEYWORD endOfLine
+  bodyOfSomething
+ (UNTIL_KEYWORD expr endOfLine)?
+ END_KEYWORD { pin=1 }
+
+forStatement ::=
+ FOR_KEYWORD symbol (forTo | forIterate) endOfLine
+  bodyOfSomething
+ END_KEYWORD {
+	pin=1
+	implements=['org.jetbrains.kotlin.com.intellij.psi.PsiNameIdentifierOwner']
+	mixin='org.covscript.devkt.lang.psi.impl.CovForStatementMixin'
+}
+
+forTo ::= EQ expr TO_KEYWORD expr (STEP_KEYWORD expr)?
+forIterate ::= ITERATE_KEYWORD expr
+
+blockStatement ::=
+ BLOCK_KEYWORD endOfLine
+  bodyOfSomething
+ END_KEYWORD { pin=1 }
+
+statement ::=
+   primaryStatement
+ | collapsedStatement
+
+collapsedStatement ::= COLLAPSER_BEGIN primaryStatement? COLLAPSER_END
+
+private primaryStatement ::=
+   endOfLine
+ | importDeclaration
+ | throwStatement
+ | returnStatement
+ | variableDeclaration
+ | functionDeclaration
+ | structDeclaration
+ | ifStatement
+ | whileStatement
+ | switchStatement
+ | blockStatement
+ | forStatement
+ | loopUntilStatement
+ | tryCatchStatement
+ | comment
+ | namespaceDeclaration
+ | break
+ | continue
+ | expr
+
+expr ::=
+   level0
+ | ternaryOp // 2
+ | pairOp // 3
+ | logicOp // 7
+ | notOp // 8
+ | compareLevelOp // 9
+ | level10
+ | level11
+ | level12
+ | level13
+ | level14
+ | level15
+ | primaryExpr
+
+private level0 ::=
+   assign
+ | opAssign
+
+assign ::= expr EQ expr {
+	rightAssociative=true
+}
+
+opAssign ::= expr assignOperator expr {
+	rightAssociative=true
+}
+
+private assignOperator ::=
+   DIV_ASS
+ | PLUS_ASS
+ | MINUS_ASS
+ | TIMES_ASS
+ | POW_ASS
+ | REM_ASS
+
+// level 2
+ternaryOp ::= expr QUESTION_SYM expr pairOp
+
+// level 3
+pairOp ::= expr COLON_SYM expr
+
+// level 7
+logicOp ::= expr logicOperator expr
+private logicOperator ::=
+   AND_KEYWORD
+ | AND_SYM
+ | OR_KEYWORD
+ | OR_SYM
+
+// level 8
+notOp ::= (NOT_SYM | NOT_KEYWORD) expr
+
+// level 9
+compareLevelOp ::= expr compareOperator expr
+private compareOperator ::=
+   LT_SYM
+ | GT_SYM
+ | GE_SYM
+ | LE_SYM
+ | EQ_SYM
+ | UN_SYM
+
+private level10 ::=
+   plusOp
+ | minusOp
+ | negOp
+
+plusOp ::= expr PLUS_SYM expr
+minusOp ::= expr MINUS_SYM expr
+negOp ::= MINUS_SYM expr
+
+private level11 ::=
+   divOp
+ | timesOp
+ | derefOp
+
+divOp ::= expr DIV_SYM expr
+timesOp ::= expr TIMES_SYM expr
+derefOp ::= TIMES_SYM expr
+
+private level12 ::=
+   remOp
+ | powOp
+
+remOp ::= expr REM_SYM expr
+powOp ::= expr POW_SYM expr
+
+private level13 ::=
+   unaryExpr
+ | suffixedExpr
+
+unaryExpr ::= (INC_SYM | DEC_SYM) expr
+suffixedExpr ::= expr (INC_SYM | DEC_SYM)
+
+private level14 ::=
+   newExpr
+ | typeidExpr
+
+newExpr ::= (NEW_KEYWORD | GCNEW_KEYWORD) expr
+typeidExpr ::= TYPEID_KEYWORD expr
+
+private level15 ::=
+   applyIndex
+ | applyFunction
+ | functionLit
+ | memberAccess
+
+applyFunction ::= expr LEFT_BRACKET (expr (COMMA expr)*)? RIGHT_BRACKET {
+	extends=expr
+}
+
+applyIndex ::= expr index {
+	extends=expr
+}
+
+index ::= LEFT_S_BRACKET expr RIGHT_S_BRACKET
+
+memberAccess ::= expr DOT expr {
+	extends=expr
+}
+
+functionLit ::=
+ LEFT_S_BRACKET RIGHT_S_BRACKET
+ LEFT_BRACKET
+ (
+  symbol
+  (COMMA symbol)*
+ )?
+ RIGHT_BRACKET ARROW
+  expr
+
+private primaryExpr ::=
+   number
+ | booleanLit
+ | nullLit
+ | string
+ | charLit
+ | arrayLit
+ | symbol
+ | bracketExpr
+
+bracketExpr ::= LEFT_BRACKET expr RIGHT_BRACKET
+booleanLit ::= TRUE_KEYWORD | FALSE_KEYWORD
+nullLit ::= NULL_KEYWORD
+arrayLit ::= LEFT_B_BRACKET (expr (COMMA expr)*)? RIGHT_B_BRACKET
+number ::= NUM { extends=expr }
+string ::= STR {
+	extends=expr
+}
+
+charLit ::= CHAR
+symbol ::= SYM {
+	mixin='org.covscript.devkt.lang.psi.impl.CovSymbolMixin'
+	implements=['org.covscript.devkt.lang.psi.impl.ICovSymbol']
+	extends=expr
+}

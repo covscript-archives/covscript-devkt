@@ -27,24 +27,3 @@ fun collectFrom(startPoint: PsiElement, name: String, self: PsiElement? = null) 
 		.mapNotNull(PsiElement::getReference)
 		.let { if (self != null) it.filter { it.isReferenceTo(self) } else it }
 		.toTypedArray()
-
-fun treeWalkUp(
-		processor: PsiScopeProcessor,
-		entrance: PsiElement,
-		maxScope: PsiElement?,
-		state: ResolveState = ResolveState.initial()): Boolean {
-	if (!entrance.isValid) return false
-	var prevParent = entrance
-	var scope: PsiElement? = entrance
-
-	while (scope != null) {
-		ProgressIndicatorProvider.checkCanceled()
-		if (!scope.processDeclarations(processor, state, prevParent, entrance)) return false
-		if (scope == maxScope) break
-		prevParent = scope
-		scope = prevParent.context
-	}
-	return true
-}
-
-

@@ -2,15 +2,12 @@
 package org.covscript.devkt.lang.psi.impl;
 
 import java.util.List;
-
-import org.covscript.devkt.lang.psi.CovBodyOfSomething;
-import org.covscript.devkt.lang.psi.CovSymbol;
-import org.covscript.devkt.lang.psi.CovTryCatchStatement;
-import org.covscript.devkt.lang.psi.CovVisitor;
 import org.jetbrains.annotations.*;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.kotlin.com.intellij.psi.util.PsiTreeUtil;
+import org.covscript.devkt.lang.psi.*;
+
 public class CovTryCatchStatementImpl extends CovTryCatchDeclarationMixin implements CovTryCatchStatement {
 
   public CovTryCatchStatementImpl(ASTNode node) {

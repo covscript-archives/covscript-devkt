@@ -1,8 +1,8 @@
 // This is a generated file. Not intended for manual editing.
 package org.covscript.devkt.lang.psi;
 
-import org.covscript.devkt.lang.psi.impl.ICovExpr;
+import org.jetbrains.kotlin.com.intellij.psi.PsiElement;
 
-public interface CovExpr extends ICovExpr {
+public interface CovExpr extends PsiElement {
 
 }

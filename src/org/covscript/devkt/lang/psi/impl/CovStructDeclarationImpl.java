@@ -2,12 +2,12 @@
 package org.covscript.devkt.lang.psi.impl;
 
 import java.util.List;
-
-import org.covscript.devkt.lang.psi.*;
 import org.jetbrains.annotations.*;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.kotlin.com.intellij.psi.util.PsiTreeUtil;
+import org.covscript.devkt.lang.psi.*;
+
 public class CovStructDeclarationImpl extends CovStructDeclarationMixin implements CovStructDeclaration {
 
   public CovStructDeclarationImpl(ASTNode node) {

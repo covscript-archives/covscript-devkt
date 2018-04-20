@@ -2,9 +2,9 @@
 package org.covscript.devkt.lang.psi;
 
 import java.util.List;
-
-import org.covscript.devkt.lang.psi.impl.ICovStructDeclaration;
 import org.jetbrains.annotations.*;
+import org.covscript.devkt.lang.psi.impl.ICovStructDeclaration;
+
 public interface CovStructDeclaration extends ICovStructDeclaration {
 
   @NotNull

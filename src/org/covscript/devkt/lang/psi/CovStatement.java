@@ -1,9 +1,10 @@
 // This is a generated file. Not intended for manual editing.
 package org.covscript.devkt.lang.psi;
 
-import org.covscript.devkt.lang.psi.impl.ICovStatement;
 import org.jetbrains.annotations.*;
-public interface CovStatement extends ICovStatement {
+import org.jetbrains.kotlin.com.intellij.psi.PsiElement;
+
+public interface CovStatement extends PsiElement {
 
   @Nullable
   CovBlockStatement getBlockStatement();

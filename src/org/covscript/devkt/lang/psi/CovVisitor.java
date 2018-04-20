@@ -4,14 +4,9 @@ package org.covscript.devkt.lang.psi;
 import org.jetbrains.annotations.*;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement;
-import org.covscript.devkt.lang.psi.impl.ICovStatement;
 import org.jetbrains.kotlin.com.intellij.psi.PsiNameIdentifierOwner;
-import org.covscript.devkt.lang.psi.impl.ICovExpr;
-import org.jetbrains.kotlin.com.intellij.psi.PsiLanguageInjectionHost;
-import org.covscript.devkt.lang.psi.impl.ICovImportDeclaration;
 import org.covscript.devkt.lang.psi.impl.ICovStructDeclaration;
 import org.covscript.devkt.lang.psi.impl.ICovVariableDeclaration;
-import org.covscript.devkt.lang.psi.impl.ICovUsingDeclaration;
 import org.covscript.devkt.lang.psi.impl.ICovFunctionDeclaration;
 
 public class CovVisitor extends PsiElementVisitor {
@@ -61,8 +56,7 @@ public class CovVisitor extends PsiElementVisitor {
   }
 
   public void visitComment(@NotNull CovComment o) {
-    visitPsiLanguageInjectionHost(o);
-    // visitPsiComment(o);
+    visitPsiElement(o);
   }
 
   public void visitCompareLevelOp(@NotNull CovCompareLevelOp o) {
@@ -82,7 +76,7 @@ public class CovVisitor extends PsiElementVisitor {
   }
 
   public void visitExpr(@NotNull CovExpr o) {
-    visitICovExpr(o);
+    visitPsiElement(o);
   }
 
   public void visitFileHeader(@NotNull CovFileHeader o) {
@@ -114,7 +108,7 @@ public class CovVisitor extends PsiElementVisitor {
   }
 
   public void visitImportDeclaration(@NotNull CovImportDeclaration o) {
-    visitICovImportDeclaration(o);
+    visitPsiElement(o);
   }
 
   public void visitIndex(@NotNull CovIndex o) {
@@ -190,12 +184,11 @@ public class CovVisitor extends PsiElementVisitor {
   }
 
   public void visitStatement(@NotNull CovStatement o) {
-    visitICovStatement(o);
+    visitPsiElement(o);
   }
 
   public void visitString(@NotNull CovString o) {
     visitExpr(o);
-    // visitICovString(o);
   }
 
   public void visitStructDeclaration(@NotNull CovStructDeclaration o) {
@@ -240,7 +233,7 @@ public class CovVisitor extends PsiElementVisitor {
   }
 
   public void visitUsingDeclaration(@NotNull CovUsingDeclaration o) {
-    visitICovUsingDeclaration(o);
+    visitPsiElement(o);
   }
 
   public void visitVariableDeclaration(@NotNull CovVariableDeclaration o) {
@@ -251,19 +244,7 @@ public class CovVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  @SuppressWarnings("WeakerAccess") public void visitICovExpr(@NotNull ICovExpr o) {
-    visitElement(o);
-  }
-
   public void visitICovFunctionDeclaration(@NotNull ICovFunctionDeclaration o) {
-    visitElement(o);
-  }
-
-  public void visitICovImportDeclaration(@NotNull ICovImportDeclaration o) {
-    visitElement(o);
-  }
-
-  public void visitICovStatement(@NotNull ICovStatement o) {
     visitElement(o);
   }
 
@@ -271,15 +252,7 @@ public class CovVisitor extends PsiElementVisitor {
     visitElement(o);
   }
 
-  public void visitICovUsingDeclaration(@NotNull ICovUsingDeclaration o) {
-    visitElement(o);
-  }
-
   public void visitICovVariableDeclaration(@NotNull ICovVariableDeclaration o) {
-    visitElement(o);
-  }
-
-  public void visitPsiLanguageInjectionHost(@NotNull PsiLanguageInjectionHost o) {
     visitElement(o);
   }
 

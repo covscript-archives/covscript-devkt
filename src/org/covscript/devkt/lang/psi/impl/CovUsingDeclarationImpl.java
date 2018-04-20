@@ -2,15 +2,14 @@
 package org.covscript.devkt.lang.psi.impl;
 
 import java.util.List;
-
-import org.covscript.devkt.lang.psi.CovSymbol;
-import org.covscript.devkt.lang.psi.CovUsingDeclaration;
-import org.covscript.devkt.lang.psi.CovVisitor;
 import org.jetbrains.annotations.*;
-import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.psi.PsiElementVisitor;
 import org.jetbrains.kotlin.com.intellij.psi.util.PsiTreeUtil;
-public class CovUsingDeclarationImpl extends CovUsingDeclarationMixin implements CovUsingDeclaration {
+import org.jetbrains.kotlin.com.intellij.extapi.psi.ASTWrapperPsiElement;
+import org.covscript.devkt.lang.psi.*;
+import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
+
+public class CovUsingDeclarationImpl extends ASTWrapperPsiElement implements CovUsingDeclaration {
 
   public CovUsingDeclarationImpl(ASTNode node) {
     super(node);

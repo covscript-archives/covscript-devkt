@@ -2,10 +2,10 @@
 package org.covscript.devkt.lang.psi;
 
 import java.util.List;
-
-import org.covscript.devkt.lang.psi.impl.ICovUsingDeclaration;
 import org.jetbrains.annotations.*;
-public interface CovUsingDeclaration extends ICovUsingDeclaration {
+import org.jetbrains.kotlin.com.intellij.psi.PsiElement;
+
+public interface CovUsingDeclaration extends PsiElement {
 
   @NotNull
   List<CovSymbol> getSymbolList();
