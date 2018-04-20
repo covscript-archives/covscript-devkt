@@ -1,13 +1,14 @@
 package org.covscript.devkt.lang
 
-import org.jetbrains.kotlin.com.intellij.lang.*
+import org.covscript.devkt.lang.psi.CovTypes
+import org.jetbrains.kotlin.com.intellij.extapi.psi.PsiFileBase
+import org.jetbrains.kotlin.com.intellij.lang.ASTNode
+import org.jetbrains.kotlin.com.intellij.lang.ParserDefinition
 import org.jetbrains.kotlin.com.intellij.lexer.FlexAdapter
+import org.jetbrains.kotlin.com.intellij.openapi.fileTypes.LanguageFileType
 import org.jetbrains.kotlin.com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.com.intellij.psi.*
 import org.jetbrains.kotlin.com.intellij.psi.tree.*
-import org.covscript.devkt.lang.psi.CovTypes
-import org.jetbrains.kotlin.com.intellij.extapi.psi.PsiFileBase
-import org.jetbrains.kotlin.com.intellij.openapi.fileTypes.LanguageFileType
 import javax.swing.Icon
 
 class CovLexerAdapter : FlexAdapter(CovLexer())
@@ -36,20 +37,24 @@ class CovParserDefinition : ParserDefinition {
 	override fun createElement(astNode: ASTNode?): PsiElement = CovTypes.Factory.createElement(astNode)
 	override fun getStringLiteralElements() = CovTokenType.STRINGS
 	override fun getCommentTokens() = CovTokenType.COMMENTS
-	override fun getWhitespaceTokens(): TokenSet = TokenSet.WHITE_SPACE
 }
 
 class CovTokenType(debugName: String) : IElementType(debugName, CovLanguage.INSTANCE) {
 	companion object {
-		@JvmField val COMMENTS = TokenSet.create(CovTypes.LINE_COMMENT, CovTypes.COMMENT)
-		@JvmField val STRINGS = TokenSet.create(CovTypes.STR, CovTypes.CHAR, CovTypes.STRING, CovTypes.CHAR_LIT)
-		@JvmField val SYMBOLS = TokenSet.create(CovTypes.SYM, CovTypes.SYMBOL)
+		@JvmField
+		val COMMENTS = TokenSet.create(CovTypes.LINE_COMMENT, CovTypes.COMMENT)
+		@JvmField
+		val STRINGS = TokenSet.create(CovTypes.STR, CovTypes.CHAR, CovTypes.STRING, CovTypes.CHAR_LIT)
+		@JvmField
+		val SYMBOLS = TokenSet.create(CovTypes.SYM, CovTypes.SYMBOL)
+
 		fun fromText(name: String, project: Project): PsiElement = PsiFileFactory
 				.getInstance(project)
 				.createFileFromText(CovLanguage.INSTANCE, name)
 				.firstChild
 
-		@JvmField val KEYWORDS_LIST = TokenSet.create(
+		@JvmField
+		val KEYWORDS_LIST = TokenSet.create(
 				CovTypes.IF_KEYWORD,
 				CovTypes.ELSE_KEYWORD,
 				CovTypes.END_KEYWORD,
@@ -91,7 +96,8 @@ class CovTokenType(debugName: String) : IElementType(debugName, CovLanguage.INST
 				CovTypes.EXTENDS_KEYWORD
 		)
 
-		@JvmField val OPERATOR_LIST = TokenSet.create(
+		@JvmField
+		val OPERATOR_LIST = TokenSet.create(
 				CovTypes.QUESTION_SYM,
 				CovTypes.COLON_SYM,
 				CovTypes.DIV_ASS,

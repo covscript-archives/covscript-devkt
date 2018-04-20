@@ -50,6 +50,10 @@ abstract class TrivialDeclaration(node: ASTNode) : ASTWrapperPsiElement(node), P
 	}
 }
 
+abstract class CovStructDeclarationMixin(node: ASTNode) : CovStructDeclaration, TrivialDeclaration(node) {
+	override fun getNameIdentifier() = exprList.firstOrNull()
+}
+
 interface ICovFunctionDeclaration : PsiNameIdentifierOwner
 
 abstract class CovFunctionDeclarationMixin(node: ASTNode) : CovFunctionDeclaration, TrivialDeclaration(node) {
@@ -67,6 +71,10 @@ abstract class CovFunctionDeclarationMixin(node: ASTNode) : CovFunctionDeclarati
 		nameCache = null
 		super.subtreeChanged()
 	}
+}
+
+abstract class CovTryCatchDeclarationMixin(node: ASTNode) : CovTryCatchStatement, TrivialDeclaration(node) {
+	override fun getNameIdentifier() = symbol
 }
 
 abstract class CovExprMixin(node: ASTNode) : ASTWrapperPsiElement(node), CovExpr

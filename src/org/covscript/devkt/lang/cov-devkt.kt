@@ -26,13 +26,13 @@ class CovScript<TextAttributes> : ExtendedDevKtLanguage<TextAttributes>(
 	}
 
 	override fun attributesOf(type: IElementType, colorScheme: ColorScheme<TextAttributes>) = when (type) {
-		in CovTokenType.KEYWORDS_LIST -> colorScheme.keywords
-		in CovTokenType.OPERATOR_LIST -> colorScheme.operators
-		in CovTokenType.COMMENTS -> colorScheme.lineComments
 		CovTypes.NUM -> colorScheme.numbers
 		CovTypes.STR -> colorScheme.string
 		CovTypes.CHAR -> colorScheme.charLiteral
-		CovTypes.COLLAPSER_BEGIN, CovTypes.COLLAPSER_END -> colorScheme.typeParam
+		CovTypes.COLLAPSER_BEGIN, CovTypes.COLLAPSER_END -> colorScheme.macro
+		in CovTokenType.KEYWORDS_LIST -> colorScheme.keywords
+		in CovTokenType.OPERATOR_LIST -> colorScheme.operators
+		in CovTokenType.COMMENTS -> colorScheme.lineComments
 		else -> super.attributesOf(type, colorScheme)
 	}
 
@@ -42,6 +42,8 @@ class CovScript<TextAttributes> : ExtendedDevKtLanguage<TextAttributes>(
 			colorScheme: ColorScheme<TextAttributes>) {
 		when {
 			element.isFunctionName -> document.highlight(element, colorScheme.function)
+			element.isNamespaceName -> document.highlight(element, colorScheme.namespace)
+			element.isConstVar -> document.highlight(element, colorScheme.property)
 			element.isVar -> document.highlight(element, colorScheme.variable)
 		}
 	}
