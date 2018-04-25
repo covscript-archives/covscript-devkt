@@ -2,8 +2,10 @@ package org.covscript.devkt.lang
 
 import org.covscript.devkt.lang.psi.CovSymbol
 import org.covscript.devkt.lang.psi.CovTypes
+import org.ice1000.devkt.ASTToken
 import org.ice1000.devkt.openapi.*
 import org.ice1000.devkt.openapi.ui.IconLoader
+import org.ice1000.devkt.openapi.util.CompletionElement
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.com.intellij.psi.tree.IElementType
 import javax.swing.Icon
@@ -14,6 +16,52 @@ class CovScript<TextAttributes> : ExtendedDevKtLanguage<TextAttributes>(
 	override fun satisfies(fileName: String) = fileName.endsWith(".csc") or fileName.endsWith(".csp")
 	override val lineCommentStart: String get() = "# "
 	override val icon: Icon = IconLoader.getIcon("/icons/csc.png")
+	override val initialCompletionElementList = listOf("if",
+			"else",
+			"end",
+			"new",
+			"gcnew",
+			"typeid",
+			"while",
+			"for",
+			"package",
+			"using",
+			"true",
+			"false",
+			"null",
+			"import",
+			"var",
+			"const",
+			"namespace",
+			"function",
+			"break",
+			"continue",
+			"return",
+			"block",
+			"to",
+			"iterate",
+			"until",
+			"loop",
+			"step",
+			"throw",
+			"try",
+			"catch",
+			"struct",
+			"switch",
+			"case",
+			"default",
+			"not",
+			"and",
+			"or",
+			"override",
+			"extends"
+	).mapTo(HashSet()) {
+		CompletionElement(it, type = "Keyword")
+	} + CompletionElement("system.out.println", "sout")
+
+	override fun invokeAutoPopup(currentElement: ASTToken, inputString: String): Boolean {
+		return inputString == ">" || super.invokeAutoPopup(currentElement, inputString)
+	}
 
 	override fun annotate(
 			element: PsiElement,

@@ -4,7 +4,7 @@ import java.io.*
 val kotlinVersion = "1.2.40"
 
 group = "org.covscript.devkt.lang"
-version = "v1.1"
+version = "v1.2-SNAPSHOT"
 
 plugins {
   java
@@ -42,6 +42,7 @@ repositories {
 
 dependencies {
   compileOnly(kotlin("compiler-embeddable", kotlinVersion))
-  compileOnly(files(*File("lib").listFiles()))
+  val version = "efb0f52d89"
+  compileOnly(group = "com.github.ice1000.dev-kt", name = "common", version = version)
+  runtime(group = "com.github.ice1000.dev-kt", name = "swing", version = version)
 }
-
