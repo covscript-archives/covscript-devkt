@@ -6,6 +6,7 @@ import org.ice1000.devkt.ASTToken
 import org.ice1000.devkt.openapi.*
 import org.ice1000.devkt.openapi.ui.IconLoader
 import org.ice1000.devkt.openapi.util.CompletionElement
+import org.ice1000.devkt.ui.DevKtDocumentHandler
 import org.jetbrains.kotlin.com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.com.intellij.psi.tree.IElementType
 import javax.swing.Icon
@@ -57,7 +58,9 @@ class CovScript<TextAttributes> : ExtendedDevKtLanguage<TextAttributes>(
 			"extends"
 	).mapTo(HashSet()) {
 		CompletionElement(it, type = "Keyword")
-	} + CompletionElement("system.out.println", "sout")
+	} + listOf(object : CompletionElement("system.out.println", "sout") {
+		override fun afterInsert(documentHandler: DevKtDocumentHandler<*>) = documentHandler.insert("(")
+	})
 
 	override fun invokeAutoPopup(currentElement: ASTToken, inputString: String): Boolean {
 		return inputString == ">" || super.invokeAutoPopup(currentElement, inputString)
