@@ -8,6 +8,7 @@ version = "v1.2-SNAPSHOT"
 
 plugins {
   java
+	application
   kotlin("jvm") version "1.2.40"
 }
 
@@ -38,6 +39,10 @@ repositories {
   mavenCentral()
   jcenter()
   maven("https://jitpack.io")
+}
+
+application {
+	mainClassName = "org.ice1000.devkt.Main"
 }
 
 dependencies {
