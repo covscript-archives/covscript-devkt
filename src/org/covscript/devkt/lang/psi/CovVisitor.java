@@ -55,10 +55,6 @@ public class CovVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitComment(@NotNull CovComment o) {
-    visitPsiElement(o);
-  }
-
   public void visitCompareLevelOp(@NotNull CovCompareLevelOp o) {
     visitExpr(o);
   }

@@ -21,7 +21,6 @@ public interface CovTypes {
   IElementType BREAK = new CovElementType("BREAK");
   IElementType CHAR_LIT = new CovElementType("CHAR_LIT");
   IElementType COLLAPSED_STATEMENT = new CovElementType("COLLAPSED_STATEMENT");
-  IElementType COMMENT = new CovElementType("COMMENT");
   IElementType COMPARE_LEVEL_OP = new CovElementType("COMPARE_LEVEL_OP");
   IElementType CONTINUE = new CovElementType("CONTINUE");
   IElementType DEREF_OP = new CovElementType("DEREF_OP");
@@ -108,7 +107,6 @@ public interface CovTypes {
   IElementType LEFT_B_BRACKET = new CovTokenType("LEFT_B_BRACKET");
   IElementType LEFT_S_BRACKET = new CovTokenType("LEFT_S_BRACKET");
   IElementType LE_SYM = new CovTokenType("LE_SYM");
-  IElementType LINE_COMMENT = new CovTokenType("LINE_COMMENT");
   IElementType LOOP_KEYWORD = new CovTokenType("LOOP_KEYWORD");
   IElementType LT_SYM = new CovTokenType("LT_SYM");
   IElementType MINUS_ASS = new CovTokenType("MINUS_ASS");
@@ -187,9 +185,6 @@ public interface CovTypes {
       }
       else if (type == COLLAPSED_STATEMENT) {
         return new CovCollapsedStatementImpl(node);
-      }
-      else if (type == COMMENT) {
-        return new CovCommentImpl(node);
       }
       else if (type == COMPARE_LEVEL_OP) {
         return new CovCompareLevelOpImpl(node);

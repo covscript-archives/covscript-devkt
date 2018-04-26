@@ -4,12 +4,12 @@ package org.covscript.devkt.lang;
 import org.jetbrains.kotlin.com.intellij.lang.ASTNode;
 import org.jetbrains.kotlin.com.intellij.lang.LightPsiParser;
 import org.jetbrains.kotlin.com.intellij.lang.PsiBuilder;
+import org.jetbrains.kotlin.com.intellij.lang.PsiBuilder.Marker;
 import org.jetbrains.kotlin.com.intellij.lang.PsiParser;
 import org.jetbrains.kotlin.com.intellij.psi.tree.IElementType;
 import org.jetbrains.kotlin.com.intellij.psi.tree.TokenSet;
 
 import static org.covscript.devkt.lang.psi.CovTypes.*;
-import static org.jetbrains.kotlin.com.intellij.lang.PsiBuilder.*;
 import static org.jetbrains.kotlin.com.intellij.lang.parser.GeneratedParserUtilBase.*;
 
 @SuppressWarnings({"SimplifiableIfStatement", "UnusedAssignment"})
@@ -35,9 +35,6 @@ public class CovParser implements PsiParser, LightPsiParser {
     }
     else if (t == COLLAPSED_STATEMENT) {
       r = collapsedStatement(b, 0);
-    }
-    else if (t == COMMENT) {
-      r = comment(b, 0);
     }
     else if (t == CONTINUE) {
       r = continue_$(b, 0);
@@ -225,18 +222,6 @@ public class CovParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LINE_COMMENT
-  public static boolean comment(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "comment")) return false;
-    if (!nextTokenIs(b, LINE_COMMENT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, LINE_COMMENT);
-    exit_section_(b, m, COMMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
   // LT_SYM
   //  | GT_SYM
   //  | GE_SYM
@@ -328,7 +313,6 @@ public class CovParser implements PsiParser, LightPsiParser {
   // usingDeclaration
   //  | importDeclaration
   //  | packageDeclaration
-  //  | comment
   //  | endOfLine
   public static boolean fileHeader(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "fileHeader")) return false;
@@ -337,7 +321,6 @@ public class CovParser implements PsiParser, LightPsiParser {
     r = usingDeclaration(b, l + 1);
     if (!r) r = importDeclaration(b, l + 1);
     if (!r) r = packageDeclaration(b, l + 1);
-    if (!r) r = comment(b, l + 1);
     if (!r) r = endOfLine(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
@@ -672,7 +655,6 @@ public class CovParser implements PsiParser, LightPsiParser {
   //  | forStatement
   //  | loopUntilStatement
   //  | tryCatchStatement
-  //  | comment
   //  | namespaceDeclaration
   //  | break
   //  | continue
@@ -695,7 +677,6 @@ public class CovParser implements PsiParser, LightPsiParser {
     if (!r) r = forStatement(b, l + 1);
     if (!r) r = loopUntilStatement(b, l + 1);
     if (!r) r = tryCatchStatement(b, l + 1);
-    if (!r) r = comment(b, l + 1);
     if (!r) r = namespaceDeclaration(b, l + 1);
     if (!r) r = break_$(b, l + 1);
     if (!r) r = continue_$(b, l + 1);

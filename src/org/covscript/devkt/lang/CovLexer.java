@@ -700,7 +700,7 @@ class CovLexer implements FlexLexer {
             // fall through
           case 86: break;
           case 3: 
-            { return CovTypes.LINE_COMMENT;
+            { return CovTokenType.LINE_COMMENT;
             } 
             // fall through
           case 87: break;

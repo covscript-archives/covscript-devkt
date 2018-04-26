@@ -41,13 +41,10 @@ class CovParserDefinition : ParserDefinition {
 
 class CovTokenType(debugName: String) : IElementType(debugName, CovLanguage.INSTANCE) {
 	companion object {
-		@JvmField
-		val COMMENTS = TokenSet.create(CovTypes.LINE_COMMENT, CovTypes.COMMENT)
-		@JvmField
-		val STRINGS = TokenSet.create(CovTypes.STR, CovTypes.CHAR, CovTypes.STRING, CovTypes.CHAR_LIT)
-		@JvmField
-		val SYMBOLS = TokenSet.create(CovTypes.SYM, CovTypes.SYMBOL)
-
+		@JvmField val LINE_COMMENT = CovTokenType("LINE_COMMENT")
+		@JvmField val COMMENTS = TokenSet.create(LINE_COMMENT)
+		@JvmField val STRINGS = TokenSet.create(CovTypes.STR, CovTypes.CHAR, CovTypes.STRING, CovTypes.CHAR_LIT)
+		@JvmField val SYMBOLS = TokenSet.create(CovTypes.SYM, CovTypes.SYMBOL)
 		fun fromText(name: String, project: Project): PsiElement = PsiFileFactory
 				.getInstance(project)
 				.createFileFromText(CovLanguage.INSTANCE, name)

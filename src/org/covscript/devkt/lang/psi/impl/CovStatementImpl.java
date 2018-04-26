@@ -42,12 +42,6 @@ public class CovStatementImpl extends ASTWrapperPsiElement implements CovStateme
 
   @Override
   @Nullable
-  public CovComment getComment() {
-    return findChildByClass(CovComment.class);
-  }
-
-  @Override
-  @Nullable
   public CovContinue getContinue() {
     return findChildByClass(CovContinue.class);
   }

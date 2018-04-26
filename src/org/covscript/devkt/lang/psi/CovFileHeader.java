@@ -7,9 +7,6 @@ import org.jetbrains.kotlin.com.intellij.psi.PsiElement;
 public interface CovFileHeader extends PsiElement {
 
   @Nullable
-  CovComment getComment();
-
-  @Nullable
   CovImportDeclaration getImportDeclaration();
 
   @Nullable

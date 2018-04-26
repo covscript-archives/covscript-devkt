@@ -41,7 +41,7 @@ abstract class TrivialDeclaration(node: ASTNode) : ASTWrapperPsiElement(node), P
 
 	override fun processDeclarations(
 			processor: PsiScopeProcessor, substitutor: ResolveState, lastParent: PsiElement?, place: PsiElement) =
-			nameIdentifier?.processDeclarations(processor, substitutor, lastParent, place).orFalse() and
+			nameIdentifier?.processDeclarations(processor, substitutor, lastParent, place).orFalse() &&
 					processDeclTrivial(processor, substitutor, lastParent, place)
 
 	override fun subtreeChanged() {
@@ -51,7 +51,7 @@ abstract class TrivialDeclaration(node: ASTNode) : ASTWrapperPsiElement(node), P
 }
 
 abstract class CovStructDeclarationMixin(node: ASTNode) : CovStructDeclaration, TrivialDeclaration(node) {
-	override fun getNameIdentifier() = exprList.firstOrNull()
+	override fun getNameIdentifier() = PsiTreeUtil.getChildOfType(this, CovSymbol::class.java)
 }
 
 interface ICovFunctionDeclaration : PsiNameIdentifierOwner
@@ -65,7 +65,7 @@ abstract class CovFunctionDeclarationMixin(node: ASTNode) : CovFunctionDeclarati
 			processor: PsiScopeProcessor, substitutor: ResolveState, lastParent: PsiElement?, place: PsiElement) =
 			symbolList.asReversed().all {
 				it.processDeclarations(processor, substitutor, lastParent, place)
-			} and processDeclTrivial(processor, substitutor, lastParent, place)
+			} && processDeclTrivial(processor, substitutor, lastParent, place)
 
 	override fun subtreeChanged() {
 		nameCache = null

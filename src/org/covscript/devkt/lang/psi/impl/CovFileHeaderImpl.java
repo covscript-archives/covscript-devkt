@@ -24,12 +24,6 @@ public class CovFileHeaderImpl extends ASTWrapperPsiElement implements CovFileHe
 
   @Override
   @Nullable
-  public CovComment getComment() {
-    return findChildByClass(CovComment.class);
-  }
-
-  @Override
-  @Nullable
   public CovImportDeclaration getImportDeclaration() {
     return findChildByClass(CovImportDeclaration.class);
   }

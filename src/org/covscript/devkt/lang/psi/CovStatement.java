@@ -16,9 +16,6 @@ public interface CovStatement extends PsiElement {
   CovCollapsedStatement getCollapsedStatement();
 
   @Nullable
-  CovComment getComment();
-
-  @Nullable
   CovContinue getContinue();
 
   @Nullable
