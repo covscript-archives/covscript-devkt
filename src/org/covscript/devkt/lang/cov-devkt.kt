@@ -17,50 +17,17 @@ class CovScript<TextAttributes> : ExtendedDevKtLanguage<TextAttributes>(
 	override fun satisfies(fileName: String) = fileName.endsWith(".csc") or fileName.endsWith(".csp")
 	override val lineCommentStart: String get() = "# "
 	override val icon: Icon = IconLoader.getIcon("/icons/csc.png")
-	override val initialCompletionElementList = listOf("if",
-			"else",
-			"end",
-			"new",
-			"gcnew",
-			"typeid",
-			"while",
-			"for",
-			"package",
-			"using",
-			"true",
-			"false",
-			"null",
-			"import",
-			"var",
-			"const",
-			"namespace",
-			"function",
-			"break",
-			"continue",
-			"return",
-			"block",
-			"to",
-			"iterate",
-			"until",
-			"loop",
-			"step",
-			"throw",
-			"try",
-			"catch",
-			"struct",
-			"switch",
-			"case",
-			"default",
-			"not",
-			"and",
-			"or",
-			"override",
-			"extends"
-	).mapTo(HashSet()) {
-		CompletionElement(it, type = "Keyword")
-	} + listOf(object : CompletionElement("system.out.println", "sout") {
+	override val initialCompletionElementList = listOf(
+			"if", "else", "end", "new", "gcnew", "typeid", "while", "for", "package",
+			"using", "true", "false", "null", "import", "var", "const", "namespace",
+			"function", "break", "continue", "return", "block", "to", "iterate", "until",
+			"loop", "step", "throw", "try", "catch", "struct", "switch", "case", "default",
+			"not", "and", "or", "override", "extends"
+	).mapTo(hashSetOf<CompletionElement>(object : CompletionElement("system.out.println", "sout") {
 		override fun afterInsert(documentHandler: DevKtDocumentHandler<*>) = documentHandler.insert("(")
-	})
+	})) {
+		CompletionElement(it, type = "Keyword")
+	}
 
 	override fun invokeAutoPopup(currentElement: ASTToken, inputString: String): Boolean {
 		return inputString == ">" || super.invokeAutoPopup(currentElement, inputString)

@@ -4,41 +4,41 @@ import java.io.*
 val kotlinVersion = "1.2.40"
 
 group = "org.covscript.devkt.lang"
-version = "v1.2-SNAPSHOT"
+version = "v1.2"
 
 plugins {
-  java
+	java
 	application
-  kotlin("jvm") version "1.2.40"
+	kotlin("jvm") version "1.2.40"
 }
 
 java {
-  sourceCompatibility = JavaVersion.VERSION_1_8
-  targetCompatibility = JavaVersion.VERSION_1_8
+	sourceCompatibility = JavaVersion.VERSION_1_8
+	targetCompatibility = JavaVersion.VERSION_1_8
 }
 
 java.sourceSets {
-  "main" {
-    java.setSrcDirs(listOf("src"))
-    withConvention(KotlinSourceSet::class) {
-      kotlin.setSrcDirs(listOf("src"))
-    }
-    resources.setSrcDirs(listOf("res"))
-  }
+	"main" {
+		java.setSrcDirs(listOf("src"))
+		withConvention(KotlinSourceSet::class) {
+			kotlin.setSrcDirs(listOf("src"))
+		}
+		resources.setSrcDirs(listOf("res"))
+	}
 
-  "test" {
-    java.setSrcDirs(emptyList<Any>())
-    withConvention(KotlinSourceSet::class) {
-      kotlin.setSrcDirs(emptyList<Any>())
-    }
-    resources.setSrcDirs(emptyList<Any>())
-  }
+	"test" {
+		java.setSrcDirs(emptyList<Any>())
+		withConvention(KotlinSourceSet::class) {
+			kotlin.setSrcDirs(emptyList<Any>())
+		}
+		resources.setSrcDirs(emptyList<Any>())
+	}
 }
 
 repositories {
-  mavenCentral()
-  jcenter()
-  maven("https://jitpack.io")
+	mavenCentral()
+	jcenter()
+	maven("https://jitpack.io")
 }
 
 application {
@@ -46,8 +46,8 @@ application {
 }
 
 dependencies {
-  compileOnly(kotlin("compiler-embeddable", kotlinVersion))
-  val version = "fffe21c45d"
-  compileOnly(group = "com.github.ice1000.dev-kt", name = "common", version = version)
-  runtime(group = "com.github.ice1000.dev-kt", name = "swing", version = version)
+	compileOnly(kotlin("compiler-embeddable", kotlinVersion))
+	val version = "v1.4"
+	compileOnly(group = "com.github.ice1000.dev-kt", name = "common", version = version)
+	runtime(group = "com.github.ice1000.dev-kt", name = "swing", version = version)
 }
